@@ -1,0 +1,2 @@
+#spring:#  datasource:#    username: root#    password: Prb9595050220$#    url: jdbc:mysql://localhost:3306/crudexample#    driver-class-name: com.mysql.cj.jdbc.Driver#  jpa:#    show-sql: true#    hibernate:#      ddl-auto: update#    properties.hibernate.dailect: org.hibernate.dialect.MySQL5Dialect
+#  
