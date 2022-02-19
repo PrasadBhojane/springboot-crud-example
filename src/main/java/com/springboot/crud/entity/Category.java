@@ -1,5 +1,6 @@
 package com.springboot.crud.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -7,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -29,7 +31,8 @@ public class Category {
 	
 	private String categoryCode;
 	
-	@OneToMany(mappedBy = "category",cascade = CascadeType.ALL) 
-	private Set<Product> products;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "categoryId")
+	private Set<Product> products = new HashSet<>();
 }
 

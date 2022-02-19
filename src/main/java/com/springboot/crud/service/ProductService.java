@@ -24,6 +24,7 @@ public class ProductService {
 	}
 	
 	public Category saveCategory(Category category) {
+		productRepo.saveAll(category.getProducts());
 		Set<Product> products = category.getProducts();
 		category.setProducts(products);
 		return categoryRepo.save(category);
