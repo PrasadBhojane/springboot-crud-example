@@ -1,0 +1,66 @@
+{
+	"info": {
+		"_postman_id": "3f3ec9e0-d114-4a4a-93f4-364d7b472bac",
+		"name": "amazon",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/v1/addCategory",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "7fefcccf-a3ea-4c35-b613-565316f8313d",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"categoryName\": \"Electronics\",\r\n    \"categoryCode\": \"EL\",\r\n    \"products\": [\r\n        {\r\n        \"productName\": \"Samsung A50\",\r\n        \"productQuantity\": 10,\r\n        \"productPrice\": 50000,\r\n        \"productCode\": \"A50\"\r\n        },\r\n        {\r\n        \"productName\": \"Samsung A30\",\r\n        \"productQuantity\": 10,\r\n        \"productPrice\": 30000,\r\n        \"productCode\": \"A30\"\r\n        }\r\n\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/addCategory",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"addCategory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/v1/login/paddy/paddy123",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v1/login/paddy/paddy123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"login",
+						"paddy",
+						"paddy123"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
