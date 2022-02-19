@@ -8,8 +8,8 @@ import com.springboot.crud.entity.Product;
 @Repository
 public interface ProductRepo extends JpaRepository<Product, Integer> {
 
-	Product findByName(String name);
+	Product findByProductName(String productName);
 
-	public Product findByPriceAndName(double price, String name);
+	public Product findByProductPriceAndProductName(double productPrice, String productName);
 
 }
