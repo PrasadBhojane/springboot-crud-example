@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.springboot.crud.entity.AcessToken;
+import com.springboot.crud.entity.AccessToken;
 import com.springboot.crud.entity.Category;
 import com.springboot.crud.entity.Product;
 import com.springboot.crud.service.ProductService;
@@ -28,12 +28,12 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
-	AcessToken acessToken;
+	AccessToken acessToken;
 	
 	String uuidString;
 
 	@GetMapping("/login/{userName}/{password}")
-	public ResponseEntity<AcessToken> loginCheck(@PathVariable("userName") String userName,
+	public ResponseEntity<AccessToken> loginCheck(@PathVariable("userName") String userName,
 			@PathVariable("password") String password) throws Exception {
 		String user = "paddy";
 		String pass = "paddy123";
@@ -41,12 +41,12 @@ public class ProductController {
 		uuidString = uuid.toString();
 		System.out.println("UUID -> " + uuidString);
 		if (userName.equalsIgnoreCase(user) && password.equalsIgnoreCase(pass)) {
-			acessToken = new AcessToken();
+			acessToken = new AccessToken();
 			acessToken.setToken(uuid.toString());
 		} else {
 			throw new Exception("Credentials not valid");
 		}
-		return new ResponseEntity<AcessToken>(acessToken, HttpStatus.OK);
+		return new ResponseEntity<AccessToken>(acessToken, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/addProduct", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -56,7 +56,8 @@ public class ProductController {
 		return new ResponseEntity<>(saveProduct, HttpStatus.CREATED);
 	}
 
-	@PostMapping(value = "/addCategory", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/addCategory", consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Category> addCategory(@RequestBody Category category, @RequestHeader("token") String token)
 			throws Exception {
 		Category saveCategory = null;
@@ -70,24 +71,32 @@ public class ProductController {
 		return responseEntity;
 	}
 
-	@PostMapping("/addProducts")
-	public List<Product> addProducts(@RequestBody List<Product> products) {
-		return productService.saveProducts(products);
+	@PostMapping(value = "/addProducts", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Product>> addProducts(@RequestBody List<Product> products) {
+		List<Product> saveProducts = productService.saveProducts(products);
+		
+		return new ResponseEntity<>(saveProducts, HttpStatus.CREATED);
 	}
 
-	@GetMapping("/products")
-	public List<Product> findAllProducts() {
-		return productService.getProducts();
+	@GetMapping(value = "/products", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Product>> findAllProducts() {
+		List<Product> getProducts = productService.getProducts();
+		
+		return new ResponseEntity<>(getProducts, HttpStatus.ACCEPTED);
 	}
 
-	@GetMapping("/productById/{id}")
-	public Product findProductById(@PathVariable int id) {
-		return productService.getProductById(id);
+	@GetMapping(value = "/productById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Product> findProductById(@PathVariable int id) {
+		Product getProductById = productService.getProductById(id);
+		
+		return new ResponseEntity<>(getProductById, HttpStatus.ACCEPTED);
 	}
 
-	@GetMapping("/product/{name}")
-	public Product findProductByName(@PathVariable String name) {
-		return productService.getProductByName(name);
+	@GetMapping(value = "/product/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Product> findProductByName(@PathVariable String name) {
+		Product getProductByName = productService.getProductByName(name);
+		
+		return new ResponseEntity<>(getProductByName, HttpStatus.ACCEPTED);
 	}
 
 //	@PutMapping("/update")
@@ -95,9 +104,11 @@ public class ProductController {
 //		return productService.updateProduct(product);
 //	}
 
-	@DeleteMapping("/delete/{id}")
-	public String deleteProduct(@PathVariable int id) {
-		return productService.deleteProduct(id);
+	@DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> deleteProduct(@PathVariable int id) {
+		String deleteProduct = productService.deleteProduct(id);
+		
+		return new ResponseEntity<>(deleteProduct, HttpStatus.OK);
 	}
 
 }
