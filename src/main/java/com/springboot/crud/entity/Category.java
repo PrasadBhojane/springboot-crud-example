@@ -4,7 +4,6 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,18 +18,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "CATEGORY")
+@Table(name = "category")
 public class Category {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer categoryId;
 	
 	private String categoryName;
 	
 	private String categoryCode;
 	
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "category",fetch = FetchType.EAGER) 
+	@OneToMany(mappedBy = "category",cascade = CascadeType.ALL) 
 	private Set<Product> products;
 }
 

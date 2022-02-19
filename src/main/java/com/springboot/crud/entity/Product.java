@@ -3,7 +3,6 @@ package com.springboot.crud.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,11 +16,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "PRODUCT")
+@Table(name = "product")
 public class Product {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	private Integer productId;
 	private String productName;
 	private int productQuantity;
@@ -29,7 +28,7 @@ public class Product {
 	private String productCode;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "categoryId")
+	@JoinColumn(name = "categoryId",referencedColumnName = "categoryId")
 	private Category category;
 	
 	

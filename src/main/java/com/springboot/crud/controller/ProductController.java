@@ -1,9 +1,9 @@
 package com.springboot.crud.controller;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +20,7 @@ import com.springboot.crud.entity.AccessToken;
 import com.springboot.crud.entity.Category;
 import com.springboot.crud.entity.Product;
 import com.springboot.crud.service.ProductService;
+import com.springboot.crud.util.AmazonUtil;
 
 @RestController
 @RequestMapping("/v1")
@@ -31,18 +32,22 @@ public class ProductController {
 	AccessToken acessToken;
 	
 	String uuidString;
+	
+	@Value("${masterToken}")
+	private String masterToken;
+	
+	@Autowired
+	AmazonUtil utility; 
+	
 
 	@GetMapping("/login/{userName}/{password}")
 	public ResponseEntity<AccessToken> loginCheck(@PathVariable("userName") String userName,
 			@PathVariable("password") String password) throws Exception {
 		String user = "paddy";
 		String pass = "paddy123";
-		UUID uuid = UUID.randomUUID();
-		uuidString = uuid.toString();
-		System.out.println("UUID -> " + uuidString);
 		if (userName.equalsIgnoreCase(user) && password.equalsIgnoreCase(pass)) {
 			acessToken = new AccessToken();
-			acessToken.setToken(uuid.toString());
+			acessToken.setToken(masterToken);
 		} else {
 			throw new Exception("Credentials not valid");
 		}
@@ -62,7 +67,7 @@ public class ProductController {
 			throws Exception {
 		Category saveCategory = null;
 		ResponseEntity<Category> responseEntity;
-		if (token.equals(uuidString)) {
+		if (utility.isTokenValid(token)) {
 			saveCategory = productService.saveCategory(category);
 			responseEntity = new ResponseEntity<>(saveCategory, HttpStatus.CREATED);
 		} else {
